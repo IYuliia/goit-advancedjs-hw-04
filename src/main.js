@@ -63,6 +63,7 @@ async function handlerFormSubmit(evt) {
       message:
         'Sorry, there are no images matching your search query. Please try again.',
     });
+    elements.loadMoreBtn.style.display = 'none';
     return;
   }
   try {
@@ -105,9 +106,6 @@ async function serviceImage(q, page = 1) {
     });
 
     if (response.data.hits.length === 0) {
-      iziToast.show({
-        message: 'Sorry, no images found. Please try again.',
-      });
       return { hits: [], totalHits: 0 };
     }
     return response.data;
