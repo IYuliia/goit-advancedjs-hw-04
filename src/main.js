@@ -34,7 +34,7 @@ async function loadMoreImages() {
 
     elements.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
 
-    if (currentPage * 40 >= data.totalHits) {
+    if (currentPage === Math.ceil(data.totalHits / 40)) {
       elements.loadMoreBtn.style.display = 'none';
       iziToast.show({
         message: "We're sorry, but you've reached the end of search results.",
@@ -77,23 +77,16 @@ async function handlerFormSubmit(evt) {
       });
       elements.loadMoreBtn.style.display = 'none';
       return;
-    } else if (currentPage * 40 >= data.totalHits) {
-      elements.gallery.insertAdjacentHTML(
-        'afterbegin',
-        createMarkup(data.hits)
-      );
-      lightbox.refresh();
+    }
+
+    elements.gallery.insertAdjacentHTML('afterbegin', createMarkup(data.hits));
+    lightbox.refresh();
+    elements.loadMoreBtn.style.display = 'block';
+    if (currentPage === Math.ceil(data.totalHits / 40)) {
       elements.loadMoreBtn.style.display = 'none';
       iziToast.show({
         message: "We're sorry, but you've reached the end of search results.",
       });
-    } else {
-      elements.gallery.insertAdjacentHTML(
-        'afterbegin',
-        createMarkup(data.hits)
-      );
-      lightbox.refresh();
-      elements.loadMoreBtn.style.display = 'block';
     }
   } catch (error) {
     console.error('Error fetching images:', error);
