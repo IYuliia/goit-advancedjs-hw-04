@@ -28,9 +28,10 @@ elements.searchForm.addEventListener('submit', handlerFormSubmit);
 elements.loadMoreBtn.addEventListener('click', loadMoreImages);
 
 async function loadMoreImages() {
+  currentPage += 1;
   try {
     const searchQuery = elements.searchForm.elements.searchQuery.value;
-    const data = await serviceImage(searchQuery, currentPage + 1);
+    const data = await serviceImage(searchQuery, currentPage);
 
     elements.gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits));
 
@@ -43,8 +44,6 @@ async function loadMoreImages() {
       elements.loadMoreBtn.style.display = 'block';
       lightbox.refresh();
     }
-
-    currentPage += 1;
   } catch (error) {
     console.error('Error loading more images:', error);
     iziToast.error({
